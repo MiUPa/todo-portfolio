@@ -9,6 +9,13 @@ document.getElementById('addTaskButton').addEventListener('click', function() {
     }
 });
 
+document.getElementById('taskInput').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        document.getElementById('addTaskButton').click();
+    }
+});
+
 // タスク要素を作成する関数
 function createTaskElement(taskText, priority) {
     const li = document.createElement('li');
