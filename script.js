@@ -12,10 +12,10 @@ document.getElementById('addTaskButton').addEventListener('click', function() {
 // タスク要素を作成する関数
 function createTaskElement(taskText, priority) {
     const li = document.createElement('li');
-    li.textContent = taskText;
+    const textSpan = document.createElement('span');
+    textSpan.textContent = taskText;
     li.className = priority;
 
-    // チェックボックスを作成
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.addEventListener('change', function() {
@@ -27,30 +27,27 @@ function createTaskElement(taskText, priority) {
         saveTasks();
     });
 
-    // 編集ボタンを作成
     const editButton = document.createElement('button');
     editButton.textContent = '編集';
+    editButton.className = 'task-button';
     editButton.addEventListener('click', function() {
         const newTaskText = prompt('タスクを編集:', taskText);
         if (newTaskText) {
-            li.textContent = newTaskText;
-            li.className = priority; // 優先度を再設定
-            li.prepend(checkbox);
-            li.appendChild(editButton);
-            li.appendChild(deleteButton);
+            textSpan.textContent = newTaskText;
             saveTasks();
         }
     });
 
-    // 削除ボタンを作成
     const deleteButton = document.createElement('button');
     deleteButton.textContent = '削除';
+    deleteButton.className = 'task-button';
     deleteButton.addEventListener('click', function() {
         li.remove();
         saveTasks();
     });
 
-    li.prepend(checkbox);
+    li.appendChild(checkbox);
+    li.appendChild(textSpan);
     li.appendChild(editButton);
     li.appendChild(deleteButton);
     document.getElementById('taskList').appendChild(li);
