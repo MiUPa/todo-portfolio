@@ -19,10 +19,31 @@ h1 {
     margin-bottom: 20px;
 }
 
+.input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    flex: 1;
+    width: auto;
+    margin: 0;
+}
+
+select {
+    width: auto;
+    margin: 0;
+}
+
+#addTaskButton {
+    width: auto;
+    padding: 12px 20px;
+    margin: 0;
+}
+
 input[type="text"], select {
-    width: calc(100% - 22px);
     padding: 12px;
-    margin: 10px 0;
     border: 1px solid #ced4da;
     border-radius: 6px;
     transition: border-color 0.3s;
@@ -58,7 +79,6 @@ button:hover {
     align-items: center;
     padding: 8px;
     border-bottom: 1px solid #ced4da;
-    gap: 8px;
 }
 
 #taskList li span {
@@ -69,21 +89,57 @@ button:hover {
     white-space: nowrap;
 }
 
-.task-button {
+#taskList li button {
     width: auto !important;
     padding: 2px 4px !important;
     font-size: 0.7em !important;
     background-color: transparent !important;
     color: #28a745 !important;
     margin: 0 2px !important;
+    transform: none !important;
 }
 
-.task-button:hover {
+#taskList li button:hover {
+    background-color: transparent !important;
     text-decoration: underline;
     transform: none !important;
+}
+
+.container > div:last-child button {
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745;
+    color: white;
+}
+
+.container > div:last-child button:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
 }
 
 .completed {
     text-decoration: line-through;
     color: gray;
+}
+
+.filter-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.filter-group button {
+    flex: 1;
+    margin: 0 5px;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.filter-group button:hover {
+    background-color: #218838;
 } 

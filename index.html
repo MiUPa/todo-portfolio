@@ -9,19 +9,21 @@
 <body>
     <div class="container">
         <h1>TODOリスト</h1>
-        <input type="text" id="taskInput" placeholder="新しいタスクを追加">
-        <select id="prioritySelect">
-            <option value="low">低</option>
-            <option value="medium">中</option>
-            <option value="high">高</option>
-        </select>
-        <button id="addTaskButton">追加</button>
-        <ul id="taskList"></ul>
-        <div>
+        <div class="input-group">
+            <input type="text" id="taskInput" placeholder="新しいタスクを追加">
+            <select id="prioritySelect">
+                <option value="low">低</option>
+                <option value="medium">中</option>
+                <option value="high">高</option>
+            </select>
+            <button id="addTaskButton">追加</button>
+        </div>
+        <div class="filter-group">
             <button id="filterAll">すべて</button>
             <button id="filterCompleted">完了</button>
             <button id="filterPending">未完了</button>
         </div>
+        <ul id="taskList"></ul>
     </div>
     <script src="script.js"></script>
 </body>
