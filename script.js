@@ -1,11 +1,10 @@
 document.getElementById('addTaskButton').addEventListener('click', function() {
     const taskInput = document.getElementById('taskInput');
-    const taskText = taskInput.value;
-    const priority = document.getElementById('prioritySelect').value;
-
-    if (taskText) {
-        createTaskElement(taskText, priority);
-        taskInput.value = ''; // 入力フィールドをクリア
+    const prioritySelect = document.getElementById('prioritySelect');
+    
+    if (taskInput.value.trim() !== '') {
+        createTaskElement(taskInput.value, prioritySelect.value);
+        taskInput.value = '';
     }
 });
 
@@ -16,8 +15,16 @@ document.getElementById('taskInput').addEventListener('keypress', function(event
     }
 });
 
+// ページ読み込み時にタスクを復元
+window.addEventListener('load', function() {
+    const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    savedTasks.forEach(task => {
+        createTaskElement(task.text, task.priority, task.completed);
+    });
+});
+
 // タスク要素を作成する関数
-function createTaskElement(taskText, priority) {
+function createTaskElement(taskText, priority, completed = false) {
     const li = document.createElement('li');
     const textSpan = document.createElement('span');
     textSpan.textContent = taskText;
@@ -25,6 +32,11 @@ function createTaskElement(taskText, priority) {
 
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
+    checkbox.checked = completed;
+    if (completed) {
+        li.classList.add('completed');
+    }
+    
     checkbox.addEventListener('change', function() {
         if (checkbox.checked) {
             li.classList.add('completed');
@@ -58,6 +70,8 @@ function createTaskElement(taskText, priority) {
     li.appendChild(editButton);
     li.appendChild(deleteButton);
     document.getElementById('taskList').appendChild(li);
+    
+    saveTasks(); // 新しいタスクが追加されたときに保存
 }
 
 // フィルタリング機能
@@ -89,47 +103,14 @@ function filterTasks(filter) {
     });
 }
 
-// ローカルストレージの利用
-window.onload = function() {
-    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    tasks.forEach(task => {
-        const li = document.createElement('li');
-        li.textContent = task.text;
-        if (task.completed) {
-            li.classList.add('completed');
-        }
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.checked = task.completed;
-        checkbox.addEventListener('change', function() {
-            if (checkbox.checked) {
-                li.classList.add('completed');
-            } else {
-                li.classList.remove('completed');
-            }
-            saveTasks();
-        });
-
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = '削除';
-        deleteButton.addEventListener('click', function() {
-            li.remove();
-            saveTasks();
-        });
-
-        li.prepend(checkbox);
-        li.appendChild(deleteButton);
-        document.getElementById('taskList').appendChild(li);
-    });
-};
-
+// タスクを保存する関数
 function saveTasks() {
     const tasks = [];
-    const taskItems = document.querySelectorAll('#taskList li');
-    taskItems.forEach(task => {
+    document.querySelectorAll('#taskList li').forEach(li => {
         tasks.push({
-            text: task.childNodes[1].textContent,
-            completed: task.classList.contains('completed')
+            text: li.querySelector('span').textContent,
+            completed: li.classList.contains('completed'),
+            priority: li.className.replace('completed', '').trim()
         });
     });
     localStorage.setItem('tasks', JSON.stringify(tasks));
